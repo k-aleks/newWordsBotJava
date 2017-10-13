@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.UUID;
 
 public class User {
-//    [BsonId]
+    //    [BsonId]
     private UUID id;
     private String username;
     private long chatId;
@@ -20,12 +20,15 @@ public class User {
     public UUID getId() {
         return id;
     }
+
     public String getUsername() {
         return username;
     }
+
     public long getChatId() {
         return chatId;
     }
+
     public Date getRegisteredDate() {
         return registeredDate;
     }

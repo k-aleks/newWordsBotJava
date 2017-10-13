@@ -2,5 +2,8 @@
 *.DotSettings.user
 bin/
 obj/
+out/
 logs/
 Config.cs
+Config.java
+
