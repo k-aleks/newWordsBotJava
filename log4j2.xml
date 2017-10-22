@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="debug" strict="true" name="XMLConfigTest" packages="newWordsBot">
+<Configuration status="warn" strict="true" name="XMLConfigTest" packages="newWordsBot">
+
     <Filter type="ThresholdFilter" level="trace"/>
 
     <Appenders>
         <Appender type="Console" name="ConsoleAppender">
             <Layout type="PatternLayout">
-                <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+                <Pattern>%d %p\t[%c{1}] %m%n</Pattern>
             </Layout>
         </Appender>
-        <Appender type="File" name="FileAppender" fileName="logs/log">
+        <Appender type="RollingFile" name="FileAppender" filePattern="logs/log-%d{yyyy-MM-dd}">
             <Layout type="PatternLayout">
-                <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+                <Pattern>%d %p\t[%c{1}] %m%n</Pattern>
             </Layout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
         </Appender>
     </Appenders>
 
