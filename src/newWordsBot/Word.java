@@ -1,9 +1,12 @@
 package newWordsBot;
 
+import org.bson.codecs.pojo.annotations.BsonId;
+
+
 import java.util.Date;
 
 public class Word {
-    //[BsonId]
+    @BsonId
     private String word;
     private String definition;
     private PartOfSpeech form;
