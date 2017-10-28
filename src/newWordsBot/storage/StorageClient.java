@@ -1,10 +1,12 @@
 package newWordsBot.storage;
 
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.UpdateOptions;
 import newWordsBot.User;
 import newWordsBot.Word;
+import newWordsBot.dotNetStyle.DateTime;
 import org.apache.logging.log4j.LogManager;
 import com.mongodb.MongoClient;
 import org.apache.logging.log4j.Logger;
@@ -37,8 +39,8 @@ public class StorageClient implements IStorageClient
     {
         MongoDatabase database = mongoClient.getDatabase(databaseName);
         MongoCollection<User> collection = database.getCollection(usersCollectionName, User.class);
-        ArrayList<User> users = collection.find(new BsonDocument()).into(new ArrayList<User>());
-        logger.debug("Found %s users in database", users.size());
+        ArrayList<User> users = collection.find().into(new ArrayList<User>());
+        logger.debug("Found {} users in database", users.size());
         return users;
     }
 
@@ -47,7 +49,7 @@ public class StorageClient implements IStorageClient
         MongoDatabase database = mongoClient.getDatabase(databaseName);
         MongoCollection<User> collection = database.getCollection(usersCollectionName, User.class);
         collection.insertOne(user);
-        logger.info("Inserted new user into database: %s", user.toString());
+        logger.info("Inserted new user into database: {}", user.toString());
     }
 
     public void AddOrUpdateWord(User user, Word word)
@@ -65,7 +67,7 @@ public class StorageClient implements IStorageClient
     {
         MongoDatabase database = mongoClient.getDatabase(databaseName);
         MongoCollection<Word> collection = database.getCollection(GetWordsCollectionName(user), Word.class);
-        Word res = collection.find(lt("NextRepetition", new Date().getTime())).first();
+        Word res = collection.find(lt("NextRepetition", DateTime.UtcNow())).first();
         return res;
     }
 
@@ -74,3 +76,5 @@ public class StorageClient implements IStorageClient
         return wordsForUserCollectionPrefix + user.getUsername();
     }
 }
+
+

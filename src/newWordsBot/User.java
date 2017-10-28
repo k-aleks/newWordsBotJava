@@ -1,14 +1,24 @@
 package newWordsBot;
 
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
+
+
 import java.util.Date;
 import java.util.UUID;
 
 public class User {
-    //    [BsonId]
+    @BsonId
     private UUID id;
+    @BsonProperty("Username")
     private String username;
+    @BsonProperty("ChatId")
     private long chatId;
+    @BsonProperty("RegisteredDate")
     private Date registeredDate;
+
+    public User() {
+    }
 
     public User(UUID id, String username, long chatId, Date registeredDate) {
         this.id = id;
@@ -21,16 +31,32 @@ public class User {
         return id;
     }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public long getChatId() {
         return chatId;
     }
 
+    public void setChatId(long chatId) {
+        this.chatId = chatId;
+    }
+
     public Date getRegisteredDate() {
         return registeredDate;
+    }
+
+    public void setRegisteredDate(Date registeredDate) {
+        this.registeredDate = registeredDate;
     }
 
     @Override
