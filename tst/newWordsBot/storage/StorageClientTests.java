@@ -1,24 +1,17 @@
 package newWordsBot.storage;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.MongoClientURI;
 import newWordsBot.Config;
+import newWordsBot.LearningStage;
+import newWordsBot.PartOfSpeech;
 import newWordsBot.User;
 import newWordsBot.Word;
 import newWordsBot.dotNetStyle.DateTime;
 import newWordsBot.dotNetStyle.Guid;
 import org.bson.BsonDocument;
-import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
-import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
-import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.codecs.pojo.PojoCodecProvider;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -61,44 +54,88 @@ class StorageClientTests {
     }
 
     @Test
-    public void FindWordWithNextRepetitionLessThenNow_should_return_null_if_no_words() throws Exception {
+    void FindWordWithNextRepetitionLessThenNow_should_return_null_if_no_words() throws Exception {
 
         User user = new User(Guid.NewGuid(), "testUser", 123, DateTime.UtcNow());
 
         ClearWordsCollection(GetCollectionName(user));
 
-        Word word = CreateStorageClient().FindWordWithNextRepetitionLessThenNow(user);
+        StorageClient storageClient = CreateStorageClient();
+
+        Word word = storageClient.FindWordWithNextRepetitionLessThenNow(user);
         assertNull(word);
     }
 
     @Test
-    void insertUser() throws InterruptedException {
-        Date d = new Date();
-        Thread.sleep(1000);
-        System.out.println(d.getHours());
-        System.out.println(new Date(new Date().getTime()).toString());
+    void FindWordWithNextRepetitionLessThenNow_should_return_null_if_for_stale_words() throws Exception {
+
+        User user = new User(Guid.NewGuid(), "testUser", 123, DateTime.UtcNow());
+
+        ClearWordsCollection(GetCollectionName(user));
+
+        StorageClient storageClient = CreateStorageClient();
+
+        storageClient.AddOrUpdateWord(user, CeateRandomWord(new Date(DateTime.UtcNow().getTime() + 60*1000)));
+
+        Word word = storageClient.FindWordWithNextRepetitionLessThenNow(user);
+        assertNull(word);
     }
 
     @Test
-    void addOrUpdateWord() {
+    void FindWordWithNextRepetitionLessThenNow_should_return_word_if_fresh() throws Exception {
+
+        User user = new User(Guid.NewGuid(), "testUser", 123, DateTime.UtcNow());
+
+        ClearWordsCollection(GetCollectionName(user));
+
+        StorageClient storageClient = CreateStorageClient();
+
+        Word word = CeateRandomWord(new Date(DateTime.UtcNow().getTime() - 60*1000));
+        storageClient.AddOrUpdateWord(user, word);
+
+        Word foundWord = storageClient.FindWordWithNextRepetitionLessThenNow(user);
+        assertEquals(word, foundWord);
     }
 
     @Test
-    void findWordWithNextRepetitionLessThenNow() {
+    void AddOrUpdateWord_should_update_word_if_exists() throws Exception {
+
+        User user = new User(Guid.NewGuid(), "testUser", 123, DateTime.UtcNow());
+
+        ClearWordsCollection(GetCollectionName(user));
+
+        StorageClient storageClient = CreateStorageClient();
+
+        Word word = CeateRandomWord(new Date(DateTime.UtcNow().getTime() - 60*1000));
+        storageClient.AddOrUpdateWord(user, word);
+        EnsureNumerOfElementsInCollection(GetCollectionName(user), 1);
+
+        storageClient.AddOrUpdateWord(user, CloneWithNewDefinition(word, "def1"));
+        EnsureNumerOfElementsInCollection(GetCollectionName(user), 1);
+
+        Word res = FindOne(GetCollectionName(user));
+        assertEquals("def1", res.getDefinition());
+    }
+
+    private Word CeateRandomWord(Date nextRepetition)
+    {
+        return new Word(Guid.NewGuid().toString(), Guid.NewGuid().toString(), PartOfSpeech.Noun, LearningStage.First_1m, nextRepetition, DateTime.UtcNow());
+    }
+
+    private Word CloneWithNewDefinition(Word w, String newDefinition)
+    {
+        return new Word(w.getWord(), newDefinition, w.getForm(), w.getStage(), w.getNextRepetition(), w.getAddedToDictionary());
     }
 
     private static StorageClient CreateStorageClient()
     {
         MongoClient mongoClient = MongoClientFactory.create(Config.MongoDbConnectionString);
-        StorageClient storageClient = new StorageClient(mongoClient, Config.DatabaseName, Config.UsersCollection,
-                Config.WordsForUserCollectionPrefix);
-        return storageClient;
+        return new StorageClient(mongoClient, Config.DatabaseName, Config.UsersCollection, Config.WordsForUserCollectionPrefix);
     }
 
     private static String GetCollectionName(User user)
     {
-        String collectionName = Config.WordsForUserCollectionPrefix + user.getUsername();
-        return collectionName;
+        return Config.WordsForUserCollectionPrefix + user.getUsername();
     }
 
     private static void ClearWordsCollection(String collectionName) throws Exception {
@@ -111,6 +148,28 @@ class StorageClientTests {
                 .getDatabase(Config.DatabaseName)
                 .getCollection(collectionName, Word.class)
                 .deleteMany(new BsonDocument());
+    }
+
+    private static void EnsureNumerOfElementsInCollection(String collectionName, int expectedNumberOfElements)
+    {
+        MongoClient mongoClient = MongoClientFactory.create(Config.MongoDbConnectionString);
+
+        long count = mongoClient
+                .getDatabase(Config.DatabaseName)
+                .getCollection(collectionName, Word.class)
+                .count();
+
+        assertEquals(expectedNumberOfElements, count);
+    }
+
+    private static Word FindOne(String collectionName)
+    {
+        MongoClient mongoClient = MongoClientFactory.create(Config.MongoDbConnectionString);
+
+        return mongoClient
+                .getDatabase(Config.DatabaseName)
+                .getCollection(collectionName, Word.class)
+                .find().first();
     }
 
 }
