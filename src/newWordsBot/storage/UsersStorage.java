@@ -29,7 +29,7 @@ public class UsersStorage implements IUsersStorage {
     public User GetOrRegisterUser(String username, long chatId) {
         synchronized (usersCache) {
             if (usersCache.containsKey(username) &&
-                    usersCache.get(username).getUsername() == username &&
+                    usersCache.get(username).getUsername().equals(username) &&
                     usersCache.get(username).getChatId() == chatId) {
                 return usersCache.get(username);
             }
