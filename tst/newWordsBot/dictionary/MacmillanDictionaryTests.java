@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-//TODO: move functional tests to separate package
+//TODO: move functional tests to separate package of mark them somehow
 class MacmillanDictionaryTests {
 
     @Test
