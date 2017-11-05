@@ -7,5 +7,6 @@ public enum PartOfSpeech
     Noun,
     Verb,
     Adjective,
-    PhrasalVerb
+    PhrasalVerb,
+    Phrase
 }
