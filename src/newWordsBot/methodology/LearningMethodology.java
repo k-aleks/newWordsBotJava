@@ -19,25 +19,26 @@ public class LearningMethodology implements ILearningMethodology {
     public Word OnRightResponse(Word word)
     {
         if (word.getStage() == LearningStage.First_1m)
-            return new Word(word.getWord(), word.getDefinition(), word.Form, LearningStage.Second_30m, timeProvider.InThirtyMinutes(), word.AddedToDictionary);
+            return new Word(word.getWord(), word.getDefinition(), word.getForm(), LearningStage.Second_30m, timeProvider.InThirtyMinutes(), word.getAddedToDictionary());
         if (word.getStage() == LearningStage.Second_30m)
-            return new Word(word.getWord(), word.getDefinition(), word.Form, LearningStage.Third_24h, timeProvider.InOneDay(), word.AddedToDictionary);
+            return new Word(word.getWord(), word.getDefinition(), word.getForm(), LearningStage.Third_24h, timeProvider.InOneDay(), word.getAddedToDictionary());
         if (word.getStage() == LearningStage.Third_24h)
-            return new Word(word.getWord(), word.getDefinition(), word.Form, LearningStage.Forth_14d, timeProvider.InForteenDays(), word.AddedToDictionary);
+            return new Word(word.getWord(), word.getDefinition(), word.getForm(), LearningStage.Forth_14d, timeProvider.InForteenDays(), word.getAddedToDictionary());
         if (word.getStage() == LearningStage.Forth_14d)
-            return new Word(word.getWord(), word.getDefinition(), word.Form, LearningStage.Fifth_60d, timeProvider.InSixtyDays(), word.AddedToDictionary);
+            return new Word(word.getWord(), word.getDefinition(), word.getForm(), LearningStage.Fifth_60d, timeProvider.InSixtyDays(), word.getAddedToDictionary());
         if (word.getStage() == LearningStage.Fifth_60d)
-            return new Word(word.getWord(), word.Definition, word.Form, LearningStage.Sixth_Completed, DateTime.MaxValue, word.AddedToDictionary);
+            return new Word(word.getWord(), word.getDefinition(), word.getForm(), LearningStage.Sixth_Completed, DateTime.MaxValue(), word.getAddedToDictionary());
         logger.error("Unexpected stage {}", word.getStage());
+        return null;
     }
 
     public Word OnWrongResponse(Word word)
     {
-        return new Word(word.TheWord, word.Definition, word.Form, LearningStage.First_1m, timeProvider.InOneMinute(), word.AddedToDictionary);
+        return new Word(word.getWord(), word.getDefinition(), word.getForm(), LearningStage.First_1m, timeProvider.InOneMinute(), word.getAddedToDictionary());
     }
 
-    public Word CreateNewWord(string word, string definition, PartOfSpeech form)
+    public Word CreateNewWord(String word, String definition, PartOfSpeech form)
     {
-        return new Word(word, definition, form, LearningStage.First_1m, timeProvider.InOneMinute(), DateTime.UtcNow);
+        return new Word(word, definition, form, LearningStage.First_1m, timeProvider.InOneMinute(), DateTime.UtcNow());
     }
 }

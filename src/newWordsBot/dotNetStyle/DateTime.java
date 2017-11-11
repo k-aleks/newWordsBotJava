@@ -14,5 +14,9 @@ public class DateTime {
     public static Date UtcNowPlusMilliseconds(int milliseconds) {
        return new Date(new Date().getTime() + milliseconds);
     }
+
+    public static Date MaxValue() {
+        return new Date(Long.MAX_VALUE);
+    }
 }
 
