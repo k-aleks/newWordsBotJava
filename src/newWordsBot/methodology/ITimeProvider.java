@@ -1,9 +1,11 @@
-//package newWordsBot.methodology;
-//
-//public interface ITimeProvider {
-//    DateTime InOneMinute();
-//    DateTime InThirtyMinutes();
-//    DateTime InOneDay();
-//    DateTime InForteenDays();
-//    DateTime InSixtyDays();
-//}
+package newWordsBot.methodology;
+
+import java.util.Date;
+
+public interface ITimeProvider {
+    Date InOneMinute();
+    Date InThirtyMinutes();
+    Date InOneDay();
+    Date InForteenDays();
+    Date InSixtyDays();
+}
