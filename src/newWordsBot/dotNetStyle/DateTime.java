@@ -1,10 +1,23 @@
 package newWordsBot.dotNetStyle;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class DateTime {
     public static Date UtcNow() {
         return new Date();
+    }
+
+    public static Date UtcNowPlusDays(int days) {
+        return UtcNowPlusHours(days*24);
+    }
+
+    public static Date UtcNowPlusHours(int hours) {
+        return UtcNowPlusMinutes(hours*60);
+    }
+
+    public static Date UtcNowPlusMinutes(int minutes) {
+        return UtcNowPlusSeconds(minutes*60);
     }
 
     public static Date UtcNowPlusSeconds(int seconds) {
