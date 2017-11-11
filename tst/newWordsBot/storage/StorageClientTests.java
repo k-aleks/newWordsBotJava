@@ -10,11 +10,13 @@ import newWordsBot.dotNetStyle.DateTime;
 import newWordsBot.dotNetStyle.Guid;
 import org.bson.BsonDocument;
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Date;
 
+//TODO: move functional tests to separate package of mark them somehow
 class StorageClientTests {
 
     //TODO: when make take test to work fix UTC issue
