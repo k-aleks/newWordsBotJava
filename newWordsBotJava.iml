@@ -32,5 +32,17 @@
     </orderEntry>
     <orderEntry type="library" name="org.mockito:mockito-all:1.10.19" level="project" />
     <orderEntry type="library" name="org.jsoup:jsoup:1.10.3" level="project" />
+    <orderEntry type="library" name="org.mongodb:mongodb-driver:3.5.0" level="project" />
+    <orderEntry type="library" name="org.apache.logging.log4j:log4j-api:2.9.1" level="project" />
+    <orderEntry type="module-library" scope="TEST">
+      <library name="JUnit5">
+        <CLASSES>
+          <root url="jar://$APPLICATION_HOME_DIR$/plugins/junit/lib/junit-jupiter-api-5.0.0.jar!/" />
+          <root url="jar://$APPLICATION_HOME_DIR$/plugins/junit/lib/opentest4j-1.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
