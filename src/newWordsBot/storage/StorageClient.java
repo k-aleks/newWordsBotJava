@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 //TODO: refactor according best practices for working with mongodb via java driver
+//TODO: ensure UTC time is stored (maybe LocalDateTime should be used)
 public class StorageClient implements IStorageClient
 {
     private Logger logger = LogManager.getLogger(StorageClient.class);
