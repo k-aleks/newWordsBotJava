@@ -18,13 +18,14 @@ import java.util.Random;
 import java.util.concurrent.Executors;
 
 public class BackgroundQuizHandler implements IHandler {
+
+    private Logger logger = LogManager.getLogger(BackgroundQuizHandler.class);
     private IUsersStorage usersStorage;
     private IWordsStorage wordsStorage;
     private IPendingQuizRequests pendingQuizRequests;
     private IRandomWordDefinitionSelector randomWordDefinitionDefenitionSelector;
     private ILearningMethodology learningMethodology;
     private Random rnd = new Random();
-    private Logger logger = LogManager.getLogger(BackgroundQuizHandler.class);
     private BackgroundQuizHandlerMessanger messanger;
 
     public BackgroundQuizHandler(IUsersStorage usersStorage,

@@ -4,6 +4,6 @@ import newWordsBot.User;
 import java.util.ArrayList;
 
 public interface IUsersStorage {
-    User GetOrRegisterUser(String username, long chatId);
-    ArrayList<User> GetAllUsers();
+    public User GetOrRegisterUser(String username, long chatId);
+    public ArrayList<User> GetAllUsers();
 }

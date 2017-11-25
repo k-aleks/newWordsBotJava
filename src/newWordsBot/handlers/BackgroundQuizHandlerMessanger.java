@@ -9,28 +9,20 @@ import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboar
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class BackgroundQuizHandlerMessanger
-{
-    private ConcurrentLinkedQueue<SendMessage> outbox = new ConcurrentLinkedQueue<>();
+class BackgroundQuizHandlerMessanger extends HandlerMessanger{
 
-    public void sendRightResponse(User user)
+    void sendRightResponse(User user)
     {
         putToOutbox(new SendMessage(user.getChatId(), "Correct!"));
     }
 
-    public void sendWrongReponse(User user)
+    void sendWrongReponse(User user)
     {
         putToOutbox(new SendMessage(user.getChatId(), "Incorrect definition :("));
     }
 
-    public void sendError(User user)
-    {
-        putToOutbox(new SendMessage(user.getChatId(), "Oops, some error occurred"));
-    }
-
-    public void askUser(User user, String word, List<String> definitions)
+    void askUser(User user, String word, List<String> definitions)
     {
         List<List<InlineKeyboardButton>> keyboardButtons = new ArrayList<>();
         for (int i = 0; i < definitions.size(); i++)
@@ -46,13 +38,4 @@ public class BackgroundQuizHandlerMessanger
                 .setReplyMarkup(keyboard);
         putToOutbox(message);
     }
-
-    public List<SendMessage> getOutputMessages() {
-        return new ArrayList<>(outbox);
-    }
-
-    private void putToOutbox(SendMessage message) {
-        outbox.add(message);
-    }
-
 }

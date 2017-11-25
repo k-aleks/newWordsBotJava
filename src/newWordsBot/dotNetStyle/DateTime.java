@@ -31,5 +31,9 @@ public class DateTime {
     public static Date MaxValue() {
         return new Date(Long.MAX_VALUE);
     }
+
+    public static Date MinValue() {
+        return new Date(0);
+    }
 }
 
