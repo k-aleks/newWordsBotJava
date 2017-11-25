@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 public class RandomWordDefinitionSelector implements IRandomWordDefinitionSelector {
-    private Logger logger = LogManager.getLogger(LearningMethodology.class);
+    private Logger logger = LogManager.getLogger(RandomWordDefinitionSelector.class);
     private Random rnd = new Random();
     private IWordsDictionary dictionary;
     private List<String> words;

@@ -7,3 +7,4 @@ public class Guid {
        return UUID.randomUUID();
    }
 }
+

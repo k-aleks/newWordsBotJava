@@ -2,24 +2,22 @@ package newWordsBot;
 import com.mongodb.MongoClientURI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 
 
+import java.awt.*;
+import java.util.Collections;
 import java.util.Date;
 import java.util.UUID;
 
 public class Main {
     private static final Logger logger = LogManager.getLogger(Main.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws TelegramApiRequestException, InterruptedException {
 
-        MongoClientURI uri = new MongoClientURI(Config.MongoDbConnectionString);
+        Bot bot = Bot.startNew(Config.TelegramBotName, Config.TelegramToken, Collections.emptyList());
 
-        for (int i=0; i< 5;i++) {
-            logger.debug("test logging " + i);
-            logger.info("test logging " + i);
-            logger.warn("test logging " + i);
-            logger.error("test logging " + i);
-        }
+        Thread.sleep(-1);
     }
 }
 
