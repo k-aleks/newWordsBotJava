@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class NewWordsHandlerMessanger extends HandlerMessanger {
+public class NewWordsHandlerMessanger extends HandlerMessanger {
 
     void SendNewWordConfirmation(User user, Word word) {
         String messageText = String.format("Added new word *%s* with definition _%s_", word.getWord(), word.getDefinition());

@@ -10,7 +10,7 @@ import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboar
 import java.util.ArrayList;
 import java.util.List;
 
-class BackgroundQuizHandlerMessanger extends HandlerMessanger{
+public class BackgroundQuizHandlerMessanger extends HandlerMessanger{
 
     void sendRightResponse(User user)
     {
