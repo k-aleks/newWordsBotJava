@@ -67,8 +67,6 @@ public class Main {
         );
 
         Bot bot = Bot.startNew(Config.TelegramBotName, Config.TelegramToken, handlers);
-
-        Thread.sleep(-1);
     }
 }
 

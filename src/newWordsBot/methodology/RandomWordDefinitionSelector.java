@@ -35,7 +35,7 @@ public class RandomWordDefinitionSelector implements IRandomWordDefinitionSelect
                 }
             }
         }
-        logger.warn("Didn't manage to find '{}' in {} attempts. Let's return any word", partOfSpeech, maxAttempts);
+        //logger.warn("Didn't manage to find '{}' in {} attempts. Let's return any word", partOfSpeech, maxAttempts);
         while ((dictionaryItem = GetRandomWordFromDictionary()).getDefinitions().size() == 0) {
         }
         return GetRandomDefinition(dictionaryItem);

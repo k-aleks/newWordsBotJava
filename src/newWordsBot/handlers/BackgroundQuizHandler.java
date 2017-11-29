@@ -55,7 +55,7 @@ public class BackgroundQuizHandler implements IHandler {
         User user = null;
         try {
             user = usersStorage.GetOrRegisterUser(callback.getMessage().getChat().getUserName(), callback.getMessage().getChat().getId());
-            logger.debug(callback.getData());
+            logger.debug(String.format("Callback from user '%s': %s", user.getUsername(), callback.getData()));
             QuizCallbackData callbackData = QuizCallbackData.deserialize(callback.getData());
             PendingQuizRequest pendingQuizRequest;
             if ((pendingQuizRequest = pendingQuizRequests.TryGet(user)) != null) {
