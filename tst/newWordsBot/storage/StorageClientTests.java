@@ -13,11 +13,26 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
 //TODO: move functional tests to separate package of mark them somehow
 class StorageClientTests {
+
+    private String databaseName;
+    private String mongoDbConnectionString;
+    private String usersCollection;
+    private String wordsForUserCollectionPrefix;
+
+    public StorageClientTests() throws IOException {
+        Config config = Config.readFromFile();
+        databaseName = config.getDatabaseName();
+        mongoDbConnectionString = config.getMongoDbConnectionString();
+        usersCollection = config.getUsersCollection();
+        wordsForUserCollectionPrefix = config.getWordsForUserCollectionPrefix();
+    }
 
     //TODO: when make take test to work fix UTC issue
     @Test
@@ -27,14 +42,14 @@ class StorageClientTests {
         User u2 = new User(Guid.NewGuid(), "user2", 123, DateTime.UtcNow());
         User u3 = new User(Guid.NewGuid(), "user3", 123, DateTime.UtcNow());
 
-        if (!Config.DatabaseName.endsWith("-test"))
+        if (!databaseName.endsWith("-test"))
             throw new Exception("A-a-a-a, don't clear working database");
 
-        MongoClient mongoClient = MongoClientFactory.create(Config.MongoDbConnectionString);
+        MongoClient mongoClient = MongoClientFactory.create(mongoDbConnectionString);
 
         mongoClient
-                .getDatabase(Config.DatabaseName)
-                .getCollection(Config.UsersCollection, User.class)
+                .getDatabase(databaseName)
+                .getCollection(usersCollection, User.class)
                 .deleteMany(new BsonDocument());
 
         StorageClient storageClient = CreateStorageClient();
@@ -77,7 +92,7 @@ class StorageClientTests {
 
         StorageClient storageClient = CreateStorageClient();
 
-        storageClient.AddOrUpdateWord(user, CeateRandomWord(new Date(DateTime.UtcNow().getTime() + 60*1000)));
+        storageClient.AddOrUpdateWord(user, CeateRandomWord(new Date(DateTime.UtcNow().getTime() + 60 * 1000)));
 
         Word word = storageClient.FindWordWithNextRepetitionLessThenNow(user);
         assertNull(word);
@@ -92,7 +107,7 @@ class StorageClientTests {
 
         StorageClient storageClient = CreateStorageClient();
 
-        Word word = CeateRandomWord(new Date(DateTime.UtcNow().getTime() - 60*1000));
+        Word word = CeateRandomWord(new Date(DateTime.UtcNow().getTime() - 60 * 1000));
         storageClient.AddOrUpdateWord(user, word);
 
         Word foundWord = storageClient.FindWordWithNextRepetitionLessThenNow(user);
@@ -108,7 +123,7 @@ class StorageClientTests {
 
         StorageClient storageClient = CreateStorageClient();
 
-        Word word = CeateRandomWord(new Date(DateTime.UtcNow().getTime() - 60*1000));
+        Word word = CeateRandomWord(new Date(DateTime.UtcNow().getTime() - 60 * 1000));
         storageClient.AddOrUpdateWord(user, word);
         EnsureNumerOfElementsInCollection(GetCollectionName(user), 1);
 
@@ -119,57 +134,51 @@ class StorageClientTests {
         assertEquals("def1", res.getDefinition());
     }
 
-    private Word CeateRandomWord(Date nextRepetition)
-    {
+    private Word CeateRandomWord(Date nextRepetition) {
         return new Word(Guid.NewGuid().toString(), Guid.NewGuid().toString(), PartOfSpeech.Noun, LearningStage.First_1m, nextRepetition, DateTime.UtcNow());
     }
 
-    private Word CloneWithNewDefinition(Word w, String newDefinition)
-    {
+    private Word CloneWithNewDefinition(Word w, String newDefinition) {
         return new Word(w.getWord(), newDefinition, w.getForm(), w.getStage(), w.getNextRepetition(), w.getAddedToDictionary());
     }
 
-    private static StorageClient CreateStorageClient()
-    {
-        MongoClient mongoClient = MongoClientFactory.create(Config.MongoDbConnectionString);
-        return new StorageClient(mongoClient, Config.DatabaseName, Config.UsersCollection, Config.WordsForUserCollectionPrefix);
+    private StorageClient CreateStorageClient() {
+        MongoClient mongoClient = MongoClientFactory.create(mongoDbConnectionString);
+        return new StorageClient(mongoClient, databaseName, usersCollection, wordsForUserCollectionPrefix);
     }
 
-    private static String GetCollectionName(User user)
-    {
-        return Config.WordsForUserCollectionPrefix + user.getUsername();
+    private String GetCollectionName(User user) {
+        return wordsForUserCollectionPrefix + user.getUsername();
     }
 
-    private static void ClearWordsCollection(String collectionName) throws Exception {
-        if (!Config.DatabaseName.endsWith("-test"))
+    private void ClearWordsCollection(String collectionName) throws Exception {
+        if (!databaseName.endsWith("-test"))
             throw new Exception("A-a-a-a, don't clear working database");
 
-        MongoClient mongoClient = MongoClientFactory.create(Config.MongoDbConnectionString);
+        MongoClient mongoClient = MongoClientFactory.create(mongoDbConnectionString);
 
         mongoClient
-                .getDatabase(Config.DatabaseName)
+                .getDatabase(databaseName)
                 .getCollection(collectionName, Word.class)
                 .deleteMany(new BsonDocument());
     }
 
-    private static void EnsureNumerOfElementsInCollection(String collectionName, int expectedNumberOfElements)
-    {
-        MongoClient mongoClient = MongoClientFactory.create(Config.MongoDbConnectionString);
+    private void EnsureNumerOfElementsInCollection(String collectionName, int expectedNumberOfElements) {
+        MongoClient mongoClient = MongoClientFactory.create(mongoDbConnectionString);
 
         long count = mongoClient
-                .getDatabase(Config.DatabaseName)
+                .getDatabase(databaseName)
                 .getCollection(collectionName, Word.class)
                 .count();
 
         assertEquals(expectedNumberOfElements, count);
     }
 
-    private static Word FindOne(String collectionName)
-    {
-        MongoClient mongoClient = MongoClientFactory.create(Config.MongoDbConnectionString);
+    private Word FindOne(String collectionName) {
+        MongoClient mongoClient = MongoClientFactory.create(mongoDbConnectionString);
 
         return mongoClient
-                .getDatabase(Config.DatabaseName)
+                .getDatabase(databaseName)
                 .getCollection(collectionName, Word.class)
                 .find().first();
     }

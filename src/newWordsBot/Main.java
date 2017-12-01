@@ -1,8 +1,6 @@
 package newWordsBot;
 import com.google.common.collect.ImmutableList;
 import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import newWordsBot.dictionary.IWordsDictionary;
 import newWordsBot.dictionary.MacmillanDictionary;
 import newWordsBot.handlers.BackgroundQuizHandler;
 import newWordsBot.handlers.BackgroundQuizHandlerMessanger;
@@ -19,9 +17,6 @@ import newWordsBot.methodology.LearningMethodology;
 import newWordsBot.methodology.RandomWordDefinitionSelector;
 import newWordsBot.methodology.TimeProvider;
 import newWordsBot.methodology.TimeProviderForTests;
-import newWordsBot.storage.IStorageClient;
-import newWordsBot.storage.IUsersStorage;
-import newWordsBot.storage.IWordsStorage;
 import newWordsBot.storage.MongoClientFactory;
 import newWordsBot.storage.StorageClient;
 import newWordsBot.storage.UsersStorage;
@@ -31,20 +26,18 @@ import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 
 
-import java.awt.*;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Date;
-import java.util.UUID;
 
 public class Main {
     private static final Logger logger = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) throws TelegramApiRequestException, InterruptedException, IOException {
 
-        MongoClient mongoClient = MongoClientFactory.create(Config.MongoDbConnectionString);
+        Config config = Config.readFromFile();
 
-        StorageClient storageClient = new StorageClient(mongoClient, Config.DatabaseName, Config.UsersCollection, Config.WordsForUserCollectionPrefix);
+        MongoClient mongoClient = MongoClientFactory.create(config.getMongoDbConnectionString());
+
+        StorageClient storageClient = new StorageClient(mongoClient, config.getDatabaseName(), config.getUsersCollection(), config.getWordsForUserCollectionPrefix());
 
         UsersStorage usersStorage = new UsersStorage(storageClient, 30 * 60 * 1000);
 
@@ -52,7 +45,7 @@ public class Main {
 
         MacmillanDictionary dictionary = new MacmillanDictionary();
 
-        ITimeProvider timeProvider = Config.TestMode ? new TimeProviderForTests() : new TimeProvider();
+        ITimeProvider timeProvider = config.isTestMode() ? new TimeProviderForTests() : new TimeProvider();
 
         ILearningMethodology learningMethodology = new LearningMethodology(timeProvider);
 
@@ -66,7 +59,7 @@ public class Main {
                 new HelpHandler()
         );
 
-        Bot bot = Bot.startNew(Config.TelegramBotName, Config.TelegramToken, handlers);
+        Bot bot = Bot.startNew(config.getTelegramBotName(), config.getTelegramToken(), handlers);
     }
 }
 
