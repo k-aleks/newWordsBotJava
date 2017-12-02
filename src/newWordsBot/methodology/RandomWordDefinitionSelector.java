@@ -21,7 +21,7 @@ public class RandomWordDefinitionSelector implements IRandomWordDefinitionSelect
     public RandomWordDefinitionSelector(IWordsDictionary dictionary) throws IOException {
         this.dictionary = dictionary;
 
-        words = Files.readAllLines(Paths.get("Resources/words"));
+        words = Files.readAllLines(Paths.get("resources/words"));
         logger.info("Initialized words for randoms difinitions. Words count: {}", words.size());
     }
 
