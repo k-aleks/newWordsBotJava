@@ -18,7 +18,7 @@ public class NewWordsHandlerMessanger extends HandlerMessanger {
         String messageText = String.format("Added new word *%s* with definition _%s_", word.getWord(), word.getDefinition());
         SendMessage message = new SendMessage(user.getChatId(), messageText)
                 .setParseMode(ParseMode.MARKDOWN);
-        putToOutbox(message);
+        putToOutbox(new OutputMessage(user, message));
     }
 
     void SendSelectDefinitionRequest(User user, String word, List<String> definitions) {
@@ -33,6 +33,6 @@ public class NewWordsHandlerMessanger extends HandlerMessanger {
                 .setKeyboard(keyboardButtons);
         SendMessage message = new SendMessage(user.getChatId(), String.format("Choose definition for the word \"%s\"", word))
                 .setReplyMarkup(keyboard);
-        putToOutbox(message);
+        putToOutbox(new OutputMessage(user, message));
     }
 }

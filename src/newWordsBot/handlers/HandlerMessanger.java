@@ -10,26 +10,27 @@ import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 abstract class HandlerMessanger {
-    private ConcurrentLinkedQueue<SendMessage> outbox = new ConcurrentLinkedQueue<>();
+    private ConcurrentLinkedQueue<OutputMessage> outbox = new ConcurrentLinkedQueue<>();
 
     public void sendError(User user) {
         SendMessage message = new SendMessage(user.getChatId(), "Oops, some error occurred");
-        putToOutbox(message);
+        putToOutbox(new OutputMessage(user, message));
     }
 
-    List<SendMessage> getOutputMessages() {
+    List<OutputMessage> getOutputMessages() {
         if (outbox.size() == 0)
            return Collections.emptyList();
 
-        ArrayList<SendMessage> res = new ArrayList<>();
-        SendMessage m;
+        ArrayList<OutputMessage> res = new ArrayList<>();
+        OutputMessage m;
         while ((m = outbox.poll()) != null)
             res.add(m);
 
         return res;
     }
 
-    void putToOutbox(SendMessage message) {
+    void putToOutbox(OutputMessage message) {
         outbox.add(message);
     }
 }
+

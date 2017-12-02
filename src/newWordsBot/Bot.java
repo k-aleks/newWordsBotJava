@@ -1,6 +1,7 @@
 package newWordsBot;
 
 import newWordsBot.handlers.IHandler;
+import newWordsBot.handlers.OutputMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.ApiContextInitializer;
@@ -81,10 +82,11 @@ public class Bot extends TelegramLongPollingBot {
         while (true) {
             try {
                 handlers.forEach(handler -> {
-                    List<SendMessage> outputMessages = handler.getOutputMessages();
+                    List<OutputMessage> outputMessages = handler.getOutputMessages();
                     outputMessages.forEach(m -> {
                         try {
-                            sendApiMethod(m);
+                            sendApiMethod(m.getMessage());
+                            logger.debug(String.format("Sent message to %s", m.getUser().getUsername()));
                         } catch (TelegramApiException e) {
                             logger.error(e);
                         }

@@ -10,7 +10,6 @@ import newWordsBot.storage.IUsersStorage;
 import newWordsBot.storage.IWordsStorage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.CallbackQuery;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
@@ -49,7 +48,7 @@ public class NewWordsHandler implements IHandler {
     }
 
     @Override
-    public List<SendMessage> getOutputMessages() {
+    public List<OutputMessage> getOutputMessages() {
         return messanger.getOutputMessages();
     }
 

@@ -5,6 +5,7 @@ import newWordsBot.dictionary.MacmillanDictionary;
 import newWordsBot.handlers.BackgroundQuizHandler;
 import newWordsBot.handlers.BackgroundQuizHandlerMessanger;
 import newWordsBot.handlers.HelpHandler;
+import newWordsBot.handlers.HelpHandlerMessanger;
 import newWordsBot.handlers.IHandler;
 import newWordsBot.handlers.IPendingQuizRequests;
 import newWordsBot.handlers.NewWordsHandler;
@@ -56,7 +57,7 @@ public class Main {
         ImmutableList<IHandler> handlers = ImmutableList.of(
                 new NewWordsHandler(usersStorage, wordsStorage, dictionary, new NewWordsHandlerMessanger(), learningMethodology),
                 new BackgroundQuizHandler(usersStorage, wordsStorage, pendingQuizRequests, randomDefinitionsSelector, learningMethodology, new BackgroundQuizHandlerMessanger()),
-                new HelpHandler()
+                new HelpHandler(new HelpHandlerMessanger(), usersStorage)
         );
 
         Bot bot = Bot.startNew(config.getTelegramBotName(), config.getTelegramToken(), handlers);

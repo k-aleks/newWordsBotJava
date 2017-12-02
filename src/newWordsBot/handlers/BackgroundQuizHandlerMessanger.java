@@ -14,12 +14,14 @@ public class BackgroundQuizHandlerMessanger extends HandlerMessanger{
 
     void sendRightResponse(User user)
     {
-        putToOutbox(new SendMessage(user.getChatId(), "Correct!"));
+        SendMessage message = new SendMessage(user.getChatId(), "Correct!");
+        putToOutbox(new OutputMessage(user, message));
     }
 
     void sendWrongReponse(User user)
     {
-        putToOutbox(new SendMessage(user.getChatId(), "Incorrect definition :("));
+        SendMessage message = new SendMessage(user.getChatId(), "Incorrect definition :(");
+        putToOutbox(new OutputMessage(user, message));
     }
 
     void askUser(User user, String word, List<String> definitions)
@@ -36,6 +38,6 @@ public class BackgroundQuizHandlerMessanger extends HandlerMessanger{
         SendMessage message = new SendMessage(user.getChatId(), String.format("Choose correct definition for the word *%s*", word))
                 .setParseMode(ParseMode.MARKDOWN)
                 .setReplyMarkup(keyboard);
-        putToOutbox(message);
+        putToOutbox(new OutputMessage(user, message));
     }
 }
