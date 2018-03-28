@@ -46,7 +46,7 @@ public class Main {
 
         MacmillanDictionary dictionary = new MacmillanDictionary();
 
-        ITimeProvider timeProvider = config.isTestMode() ? new TimeProviderForTests() : new TimeProvider();
+        ITimeProvider timeProvider = config.isTestMode() ? new TimeProviderForTests() : new TimeProvider(0.1);
 
         ILearningMethodology learningMethodology = new LearningMethodology(timeProvider);
 

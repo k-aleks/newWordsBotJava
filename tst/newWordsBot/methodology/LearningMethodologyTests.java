@@ -5,9 +5,8 @@ import newWordsBot.PartOfSpeech;
 import newWordsBot.Word;
 import newWordsBot.dotNetStyle.DateTime;
 import org.junit.experimental.theories.Theory;
-import org.junit.jupiter.api.AfterEach;
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.*;
+import org.junit.Test;
 import org.mockito.Mockito;
 
 

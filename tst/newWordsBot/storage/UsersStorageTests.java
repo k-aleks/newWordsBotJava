@@ -3,8 +3,8 @@ package newWordsBot.storage;
 import newWordsBot.User;
 import newWordsBot.dotNetStyle.DateTime;
 import newWordsBot.dotNetStyle.Guid;
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.*;
+import org.junit.Test;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.*;
 
