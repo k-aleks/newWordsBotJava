@@ -1,5 +1,6 @@
 package newWordsBot.methodology;
 
+import newWordsBot.dotNetStyle.DateTime;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -24,7 +25,7 @@ public class TimeProviderTest {
         TimeProvider timeProvider = new TimeProvider(0.1);
         for (int i = 0; i < randomizationTestsCount; i++) {
             Date date = timeProvider.InOneMinute();
-            validateDateDiffersFromExpectedForNoMoreThanRandomizationFactor(date, 0.1);
+            validateDateDiffersFromExpectedForNoMoreThanRandomizationFactor(date, DateTime.UtcNowPlusMinutes(1), 0.1);
         }
     }
 
@@ -33,7 +34,7 @@ public class TimeProviderTest {
         TimeProvider timeProvider = new TimeProvider(0.1);
         for (int i = 0; i < randomizationTestsCount; i++) {
             Date date = timeProvider.InThirtyMinutes();
-            validateDateDiffersFromExpectedForNoMoreThanRandomizationFactor(date, 0.1);
+            validateDateDiffersFromExpectedForNoMoreThanRandomizationFactor(date, DateTime.UtcNowPlusMinutes(30), 0.1);
         }
     }
 
@@ -42,7 +43,7 @@ public class TimeProviderTest {
         TimeProvider timeProvider = new TimeProvider(0.1);
         for (int i = 0; i < randomizationTestsCount; i++) {
             Date date = timeProvider.InOneDay();
-            validateDateDiffersFromExpectedForNoMoreThanRandomizationFactor(date, 0.1);
+            validateDateDiffersFromExpectedForNoMoreThanRandomizationFactor(date, DateTime.UtcNowPlusDays(1), 0.1);
         }
     }
 
@@ -51,7 +52,7 @@ public class TimeProviderTest {
         TimeProvider timeProvider = new TimeProvider(0.1);
         for (int i = 0; i < randomizationTestsCount; i++) {
             Date date = timeProvider.InForteenDays();
-            validateDateDiffersFromExpectedForNoMoreThanRandomizationFactor(date, 0.1);
+            validateDateDiffersFromExpectedForNoMoreThanRandomizationFactor(date, DateTime.UtcNowPlusDays(14), 0.1);
         }
     }
 
@@ -60,13 +61,13 @@ public class TimeProviderTest {
         TimeProvider timeProvider = new TimeProvider(0.1);
         for (int i = 0; i < randomizationTestsCount; i++) {
             Date date = timeProvider.InSixtyDays();
-            validateDateDiffersFromExpectedForNoMoreThanRandomizationFactor(date, 0.1);
+            validateDateDiffersFromExpectedForNoMoreThanRandomizationFactor(date, DateTime.UtcNowPlusDays(60), 0.1);
         }
     }
 
     private void validateDateDiffersFromExpectedForNoMoreThanRandomizationFactor(Date actualDate, Date expectedDate, double randomizationFactor) {
         long diff = Math.abs(expectedDate.getTime() - actualDate.getTime());
-        double diffFactor = diff / new Date().getTime();
+        double diffFactor = diff / expectedDate.getTime();
         assertTrue(diffFactor <= randomizationFactor);
     }
 
