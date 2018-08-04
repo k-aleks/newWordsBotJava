@@ -3,9 +3,9 @@ package newWordsBot.handlers;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-class QuizCallbackDataTest {
+public class QuizCallbackDataTest {
     @Test
-    void serialize() {
+    public void serialize() {
         QuizCallbackData data = new QuizCallbackData("show me the World", 3);
 
         String serialized = data.serialize();
@@ -14,7 +14,7 @@ class QuizCallbackDataTest {
     }
 
     @Test
-    void deserialize() {
+    public void deserialize() {
         QuizCallbackData data = QuizCallbackData.deserialize("/response 3 show me the World");
 
         assertEquals("show me the World", data.getWord());

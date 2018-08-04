@@ -11,11 +11,10 @@ import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 
-class UsersStorageTests {
+public class UsersStorageTests {
 
     @Test
-    void GetOrRegisterUser_should_save_user_to_storage_if_there_is_no_user_with_such_username()
-    {
+    public void GetOrRegisterUser_should_save_user_to_storage_if_there_is_no_user_with_such_username() {
         IStorageClient storageClient = Mockito.mock(IStorageClient.class);
 
         UsersStorage usersStorage = new UsersStorage(storageClient, 100);
@@ -28,8 +27,7 @@ class UsersStorageTests {
     }
 
     @Test
-    void GetOrRegisterUser_should_not_save_user_to_storage_if_there_is_already_user_with_such_username()
-    {
+    public void GetOrRegisterUser_should_not_save_user_to_storage_if_there_is_already_user_with_such_username() {
         IStorageClient storageClient = Mockito.mock(IStorageClient.class);
 
         UsersStorage usersStorage = new UsersStorage(storageClient, 100);
@@ -46,7 +44,7 @@ class UsersStorageTests {
     }
 
     @Test
-    void InternalUpdateCacheRoutine_should_replace_user_if_new_RegisteredDate_is_newer() throws InterruptedException {
+    public void InternalUpdateCacheRoutine_should_replace_user_if_new_RegisteredDate_is_newer() throws InterruptedException {
         User u1 = new User(Guid.NewGuid(), "user1", 123, DateTime.UtcNow());
         User u2 = new User(Guid.NewGuid(), "user1", 321, DateTime.UtcNowPlusSeconds(10));
 
@@ -70,7 +68,7 @@ class UsersStorageTests {
     }
 
     @Test
-    void InternalUpdateCacheRoutine_should_not_replace_user_if_new_RegisteredDate_is_older() throws InterruptedException {
+    public void InternalUpdateCacheRoutine_should_not_replace_user_if_new_RegisteredDate_is_older() throws InterruptedException {
         User u1 = new User(Guid.NewGuid(), "user1", 123, DateTime.UtcNow());
         User u2 = new User(Guid.NewGuid(), "user1", 321, DateTime.UtcNowPlusSeconds(-10));
 

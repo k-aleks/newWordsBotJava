@@ -4,7 +4,6 @@ import newWordsBot.LearningStage;
 import newWordsBot.PartOfSpeech;
 import newWordsBot.Word;
 import newWordsBot.dotNetStyle.DateTime;
-import org.junit.experimental.theories.Theory;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -12,7 +11,7 @@ import org.mockito.Mockito;
 
 import java.util.Date;
 
-class LearningMethodologyTests {
+public class LearningMethodologyTests {
 
     private Date timeProviderInOneMinuteResult = DateTime.UtcNowPlusMinutes(1);
     private Date timeProviderInThirtyMinutesResult = DateTime.UtcNowPlusMinutes(30);
@@ -37,7 +36,7 @@ class LearningMethodologyTests {
 
     //TODO: replace with theories or something like that
     @Test
-    void OnRightResponse_should_promote_learning_progress() {
+    public void OnRightResponse_should_promote_learning_progress() {
         OnRightResponse_should_promote_learning_progress(LearningStage.First_1m, LearningStage.Second_30m, 1);
         OnRightResponse_should_promote_learning_progress(LearningStage.Second_30m, LearningStage.Third_24h, 2);
         OnRightResponse_should_promote_learning_progress(LearningStage.Third_24h, LearningStage.Forth_14d, 3);
@@ -57,7 +56,7 @@ class LearningMethodologyTests {
     }
 
     @Test
-    void OnWrongResponse_should_reset_learning_progress()
+    public void OnWrongResponse_should_reset_learning_progress()
     {
         ITimeProvider timeProvider = CreateTimeProviderMock();
         LearningMethodology lm = new LearningMethodology(timeProvider);

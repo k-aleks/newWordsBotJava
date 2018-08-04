@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 //TODO: move functional tests to separate package of mark them somehow
-class StorageClientTests {
+public class StorageClientTests {
 
     private String databaseName;
     private String mongoDbConnectionString;
@@ -35,7 +35,7 @@ class StorageClientTests {
 
     //TODO: when make take test to work fix UTC issue
     @Test
-    void GetUsers_should_return_all_users_after_InsertUser_call() throws Exception {
+    public void GetUsers_should_return_all_users_after_InsertUser_call() throws Exception {
 
         User u1 = new User(Guid.NewGuid(), "user1", 123, DateTime.UtcNow());
         User u2 = new User(Guid.NewGuid(), "user2", 123, DateTime.UtcNow());
@@ -70,7 +70,7 @@ class StorageClientTests {
     }
 
     @Test
-    void FindWordWithNextRepetitionLessThenNow_should_return_null_if_no_words() throws Exception {
+    public void FindWordWithNextRepetitionLessThenNow_should_return_null_if_no_words() throws Exception {
 
         User user = new User(Guid.NewGuid(), "testUser", 123, DateTime.UtcNow());
 
@@ -83,7 +83,7 @@ class StorageClientTests {
     }
 
     @Test
-    void FindWordWithNextRepetitionLessThenNow_should_return_null_if_for_stale_words() throws Exception {
+    public void FindWordWithNextRepetitionLessThenNow_should_return_null_if_for_stale_words() throws Exception {
 
         User user = new User(Guid.NewGuid(), "testUser", 123, DateTime.UtcNow());
 
@@ -98,7 +98,7 @@ class StorageClientTests {
     }
 
     @Test
-    void FindWordWithNextRepetitionLessThenNow_should_return_word_if_fresh() throws Exception {
+    public void FindWordWithNextRepetitionLessThenNow_should_return_word_if_fresh() throws Exception {
 
         User user = new User(Guid.NewGuid(), "testUser", 123, DateTime.UtcNow());
 
@@ -114,7 +114,7 @@ class StorageClientTests {
     }
 
     @Test
-    void AddOrUpdateWord_should_update_word_if_exists() throws Exception {
+    public void AddOrUpdateWord_should_update_word_if_exists() throws Exception {
 
         User user = new User(Guid.NewGuid(), "testUser", 123, DateTime.UtcNow());
 

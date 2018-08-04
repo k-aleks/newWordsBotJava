@@ -2,16 +2,15 @@ package newWordsBot.dictionary;
 
 import newWordsBot.PartOfSpeech;
 import org.junit.Assert;
-import static org.junit.Assert.*;
 import org.junit.Test;
 
 import java.io.IOException;
 
 //TODO: move functional tests to separate package of mark them somehow
-class MacmillanDictionaryTests {
+public class MacmillanDictionaryTests {
 
     @Test
-    void findFromDocument_shouldReturnDefinitionsForAsset() throws IOException {
+    public void findFromDocument_shouldReturnDefinitionsForAsset() throws IOException {
         DictionaryItem result = new MacmillanDictionary().find("asset");
 
         Assert.assertEquals("asset", result.getWord());
@@ -28,7 +27,7 @@ class MacmillanDictionaryTests {
     }
 
     @Test
-    void findFromDocument_shouldReturnDefinitionsForGetRidOf() throws IOException {
+    public void findFromDocument_shouldReturnDefinitionsForGetRidOf() throws IOException {
         DictionaryItem result = new MacmillanDictionary().find("get rid of");
 
         Assert.assertEquals("get rid of", result.getWord());
@@ -45,7 +44,7 @@ class MacmillanDictionaryTests {
     }
 
     @Test
-    void findFromDocument_shouldReturnDefinitionsForConverge() throws IOException {
+    public void findFromDocument_shouldReturnDefinitionsForConverge() throws IOException {
         DictionaryItem result = new MacmillanDictionary().find("converge");
 
         Assert.assertEquals("converge", result.getWord());
@@ -60,7 +59,7 @@ class MacmillanDictionaryTests {
     }
 
     @Test
-    void findFromDocument_shouldReturnDefinitionsForThatSaid() throws IOException {
+    public void findFromDocument_shouldReturnDefinitionsForThatSaid() throws IOException {
         DictionaryItem result = new MacmillanDictionary().find("that said");
 
         Assert.assertEquals("that said", result.getWord());
@@ -73,7 +72,7 @@ class MacmillanDictionaryTests {
     }
 
     @Test
-    void findFromDocument_shouldReturnDefinitionsForBuyIn() throws IOException {
+    public void findFromDocument_shouldReturnDefinitionsForBuyIn() throws IOException {
         DictionaryItem result = new MacmillanDictionary().find("buy in");
 
         Assert.assertEquals("buy in", result.getWord());
@@ -86,7 +85,7 @@ class MacmillanDictionaryTests {
     }
 
     @Test
-    void findFromDocument_shouldReturnNullIfNoResults() throws IOException {
+    public void findFromDocument_shouldReturnNullIfNoResults() throws IOException {
         DictionaryItem result = new MacmillanDictionary().find("lalala");
         Assert.assertNull(result);
     }
