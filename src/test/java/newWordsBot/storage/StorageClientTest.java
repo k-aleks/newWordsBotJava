@@ -18,14 +18,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 //TODO: move functional tests to separate package of mark them somehow
-public class StorageClientTests {
+public class StorageClientTest {
 
     private String databaseName;
     private String mongoDbConnectionString;
     private String usersCollection;
     private String wordsForUserCollectionPrefix;
 
-    public StorageClientTests() throws IOException {
+    public StorageClientTest() throws IOException {
         Config config = Config.readFromFile();
         databaseName = config.getDatabaseName();
         mongoDbConnectionString = config.getMongoDbConnectionString();

@@ -8,10 +8,9 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.*;
 
-
 import java.util.ArrayList;
 
-public class UsersStorageTests {
+public class UsersStorageTest {
 
     @Test
     public void GetOrRegisterUser_should_save_user_to_storage_if_there_is_no_user_with_such_username() {

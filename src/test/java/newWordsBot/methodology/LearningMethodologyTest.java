@@ -11,7 +11,7 @@ import org.mockito.Mockito;
 
 import java.util.Date;
 
-public class LearningMethodologyTests {
+public class LearningMethodologyTest {
 
     private Date timeProviderInOneMinuteResult = DateTime.UtcNowPlusMinutes(1);
     private Date timeProviderInThirtyMinutesResult = DateTime.UtcNowPlusMinutes(30);
@@ -21,7 +21,7 @@ public class LearningMethodologyTests {
 
     private Date[] timeProviderResults;
 
-    LearningMethodologyTests()
+    public LearningMethodologyTest()
     {
         timeProviderResults = new Date[]
         {

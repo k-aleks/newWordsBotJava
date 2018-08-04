@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.io.IOException;
 
 //TODO: move functional tests to separate package of mark them somehow
-public class MacmillanDictionaryTests {
+public class MacmillanDictionaryTest {
 
     @Test
     public void findFromDocument_shouldReturnDefinitionsForAsset() throws IOException {
