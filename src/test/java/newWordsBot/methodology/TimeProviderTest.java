@@ -10,12 +10,12 @@ import java.util.Date;
 public class TimeProviderTest {
     private int randomizationTestsCount = 100;
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void constructor_should_throw_exception_if_randomizationFactor_too_large() {
         new TimeProvider(0.6);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void constructor_should_throw_exception_if_randomizationFactor_less_then_zero() {
         new TimeProvider(-0.1);
     }
