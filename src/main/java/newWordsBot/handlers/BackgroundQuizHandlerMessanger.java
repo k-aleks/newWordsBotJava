@@ -27,15 +27,23 @@ public class BackgroundQuizHandlerMessanger extends HandlerMessanger{
     void askUser(User user, String word, List<String> definitions)
     {
         List<List<InlineKeyboardButton>> keyboardButtons = new ArrayList<>();
+        ArrayList<InlineKeyboardButton> buttons = new ArrayList<>();
         for (int i = 0; i < definitions.size(); i++)
         {
-            InlineKeyboardButton button = new InlineKeyboardButton(definitions.get(i))
+            InlineKeyboardButton button = new InlineKeyboardButton(String.format("%s", i+1))
                                                 .setCallbackData(String.format("/response %s %s", i, word));
-            keyboardButtons.add(ImmutableList.of(button));
+            buttons.add(button);
         }
+        keyboardButtons.add(buttons);
         InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup()
                                                 .setKeyboard(keyboardButtons);
-        SendMessage message = new SendMessage(user.getChatId(), String.format("Choose correct definition for the word *%s*", word))
+        StringBuilder messageBuilder = new StringBuilder();
+        messageBuilder.append(String.format("Choose correct definition for the word *%s*\r\n\r\n", word));
+        for (int i = 0; i < definitions.size(); i++)
+        {
+            messageBuilder.append(String.format("*%s)* %s\r\n\r\n", i+1, definitions.get(i)));
+        }
+        SendMessage message = new SendMessage(user.getChatId(), messageBuilder.toString())
                 .setParseMode(ParseMode.MARKDOWN)
                 .setReplyMarkup(keyboard);
         putToOutbox(new OutputMessage(user, message));
