@@ -60,6 +60,7 @@
                                     <directory>${basedir}</directory>
                                     <includes>
                                         <include>log4j2.xml</include>
+                                        <include>config</include>
                                     </includes>
                                 </resource>
                                 <resource>
